@@ -1,0 +1,35 @@
+name: AlfaPizza Automations
+
+on:
+  schedule:
+    # Un solo polling orario: il server rende la rotazione idempotente per settimana.
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  run-cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Execute Server Tasks
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          test -n "$CRON_SECRET"
+
+          # Forza il calcolo basato sul fuso orario di Roma
+          ITALY_HOUR=$(TZ="Europe/Rome" date +%H)
+          ITALY_DAY=$(TZ="Europe/Rome" date +%u)
+
+          echo "Ora Italiana: $ITALY_HOUR, Giorno (1=Lun): $ITALY_DAY"
+
+          if [ "$ITALY_DAY" -eq 1 ] && [ "$ITALY_HOUR" -eq 0 ]; then
+            echo "Innesco Rotazione Settimanale..."
+            curl --fail-with-body --silent --show-error --retry 3 \
+              -H "x-cron-secret: $CRON_SECRET" \
+              "https://alfaserver-newa.onrender.com/api/cron/rotate-week"
+          else
+            echo "Innesco Check Pubblicazione..."
+            curl --fail-with-body --silent --show-error --retry 3 \
+              -H "x-cron-secret: $CRON_SECRET" \
+              "https://alfaserver-newa.onrender.com/api/cron/check-publication"
+          fi

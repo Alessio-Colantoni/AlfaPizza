@@ -1,0 +1,15 @@
+{
+  "name": "alfa-pizza-server",
+  "version": "1.0.0",
+  "description": "Server di test per Render",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.0"
+  }
+}

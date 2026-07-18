@@ -1,0 +1,18 @@
+# Android specific
+local.properties
+.gradle/
+build/
+app/build/
+app/release/
+gradle/gradle-daemon-jvm.properties
+*.iml
+.idea/
+.kotlin/
+kotlin-profile/
+.cxx/
+.externalNativeBuild/
+captures/
+*.apk
+*.aab
+*.ap_
+*.hprof

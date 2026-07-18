@@ -1,0 +1,14 @@
+# System Files
+.DS_Store
+Thumbs.db
+*.log
+
+# Local build artifacts
+.gradle/
+build/
+caches/
+daemon/
+native/
+wrapper/
+kotlin-profile/
+.tmp/
